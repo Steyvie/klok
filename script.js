@@ -54,4 +54,4 @@ setInterval(updateTime, 60000);
 
 // Fetch agenda immediately and then every second
 fetchAgenda();
-setInterval(fetchAgenda, 1000);
+setInterval(fetchAgenda, 60000);

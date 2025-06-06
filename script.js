@@ -27,7 +27,7 @@ async function fetchAgenda() {
   try {
     // Replace with your GitHub username and repository name
     const response = await fetch(
-      "https://raw.githubusercontent.com/Steyvie/klok/main/agenda.txt?t=" +
+      "https://raw.githubusercontent.com/Steyvie/klok/refs/heads/main/agenda.txt" +
         new Date().getTime(),
     );
 

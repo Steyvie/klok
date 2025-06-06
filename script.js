@@ -1,3 +1,11 @@
+// Configuration for custom text
+let customText = "Have a wonderful day!";
+
+function setCustomText(text) {
+    customText = text;
+    document.getElementById('custom-text').textContent = customText;
+}
+
 function updateTime() {
     const now = new Date();
     
@@ -15,6 +23,9 @@ function updateTime() {
     };
     const dateStr = now.toLocaleDateString('nl-NL', options);
     document.getElementById('date').textContent = dateStr;
+    
+    // Update custom text
+    document.getElementById('custom-text').textContent = customText;
 }
 
 // Update immediately and then every minute

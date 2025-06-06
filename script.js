@@ -25,22 +25,35 @@ function updateTime() {
 // Function to fetch agenda from GitHub
 async function fetchAgenda() {
   try {
+    // Replace these with your actual details
     const username = "Steyvie";
     const repoName = "klok";
-    const apiUrl = `https://api.github.com/repos/${username}/${repoName}/contents/agenda.txt`;
+    const branch = "main"; // or 'master' if you're using that
 
-    const response = await fetch(apiUrl);
+    // Alternative URL format that might work better
+    const url = `https://raw.githubusercontent.com/${username}/${repoName}/${branch}/agenda.txt?t=${Date.now()}`;
+
+    // Debugging - log the URL we're trying to fetch
+    console.log("Fetching agenda from:", url);
+
+    const response = await fetch(url);
+
     if (response.ok) {
-      const data = await response.json();
-      const content = atob(data.content); // Decode base64
-      document.getElementById("agenda").textContent = content;
+      const text = await response.text();
+      document.getElementById("agenda").textContent = text;
     } else {
+      console.error(
+        "Failed to fetch agenda:",
+        response.status,
+        response.statusText,
+      );
       document.getElementById("agenda").textContent =
-        "Kon agenda niet laden via API";
+        "Kon agenda niet laden (fout: " + response.status + ")";
     }
   } catch (error) {
+    console.error("Error fetching agenda:", error);
     document.getElementById("agenda").textContent =
-      "API fout: " + error.message;
+      "Fout bij laden agenda: " + error.message;
   }
 }
 

@@ -7,30 +7,28 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    text-align: center;
+    overflow: hidden;
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    text-align: center;
 }
 
 .time {
+    font-weight: bold;
     font-size: 10vw;
-    font-weight: 700;
+    margin-bottom: 20px;
 }
 
 .date {
+    font-weight: normal;
     font-size: 3vw;
-    font-weight: 700;
+    margin-bottom: 40px;
 }
 
-.repo-text {
+.agenda {
+    font-weight: normal;
     font-size: 2vw;
-    font-weight: 700;
-    margin-top: 50px;
-    max-width: 80%;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: 80vw;
+    margin: 0 auto;
 }

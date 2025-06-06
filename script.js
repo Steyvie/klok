@@ -2,47 +2,51 @@
 function updateTime() {
   const now = new Date();
 
-  // Format time (HH:MM)
-  const hours = now.getHours().toString().padStart(2, "0");
-  const minutes = now.getMinutes().toString().padStart(2, "0");
-  document.getElementById("time").textContent = `${hours}:${minutes}`;
+  // Format time without seconds
+  const timeOptions = {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  };
+  const timeString = now.toLocaleTimeString("nl-NL", timeOptions);
+  document.getElementById("time").textContent = timeString;
 
-  // Format Dutch date (e.g., "Vrijdag 6 juni 2025")
-  const options = {
+  // Format date in Dutch
+  const dateOptions = {
     weekday: "long",
     day: "numeric",
     month: "long",
     year: "numeric",
   };
-  const dutchDate = now.toLocaleDateString("nl-NL", options);
-  document.getElementById("date").textContent = dutchDate;
+  const dateString = now.toLocaleDateString("nl-NL", dateOptions);
+  document.getElementById("date").textContent = dateString;
 }
 
-// Function to fetch text from repository
-async function fetchRepoText() {
+// Function to fetch agenda from GitHub
+async function fetchAgenda() {
   try {
-    // Replace with your actual repository file URL
+    // Replace with your GitHub username and repository name
     const response = await fetch(
-      "https://raw.githubusercontent.com/Steyvie/klok/refs/heads/main/agenda.txt",
+      "https://raw.githubusercontent.com/Steyvie/klok/main/agenda.txt?t=" +
+        new Date().getTime(),
     );
+
     if (response.ok) {
       const text = await response.text();
-      document.getElementById("repo-text").textContent = text;
+      document.getElementById("agenda").textContent = text;
     } else {
-      document.getElementById("repo-text").textContent =
-        "Kon het tekstbestand niet laden.";
+      document.getElementById("agenda").textContent = "Geen agenda gevonden";
     }
   } catch (error) {
-    console.error("Error fetching text:", error);
-    document.getElementById("repo-text").textContent =
-      "Fout bij het ophalen van tekst.";
+    console.error("Error fetching agenda:", error);
+    document.getElementById("agenda").textContent = "Fout bij laden agenda";
   }
 }
 
-// Update time immediately and then every second
+// Update time immediately and then every minute
 updateTime();
-setInterval(updateTime, 1000);
+setInterval(updateTime, 60000);
 
-// Fetch repo text immediately and then every minute
-fetchRepoText();
-setInterval(fetchRepoText, 60000);
+// Fetch agenda immediately and then every second
+fetchAgenda();
+setInterval(fetchAgenda, 1000);

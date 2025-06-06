@@ -23,7 +23,7 @@ async function fetchRepoText() {
   try {
     // Replace with your actual repository file URL
     const response = await fetch(
-      "https://raw.githubusercontent.com/yourusername/yourrepo/main/textfile.txt",
+      "https://raw.githubusercontent.com/Steyvie/klok/refs/heads/main/agenda.txt",
     );
     if (response.ok) {
       const text = await response.text();

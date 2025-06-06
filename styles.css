@@ -1,0 +1,36 @@
+body {
+    background-color: black;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+.container {
+    text-align: center;
+}
+
+.time {
+    font-size: 6rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.date {
+    font-size: 2rem;
+    font-weight: 400;
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .time {
+        font-size: 4rem;
+    }
+    .date {
+        font-size: 1.5rem;
+    }
+}

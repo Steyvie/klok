@@ -48,8 +48,9 @@
                         hour: "2-digit",
                         minute: "2-digit",
                     });
+                const dateString = now.toLocaleDateString("nl-NL", options);
                 document.getElementById("date").textContent =
-                    now.toLocaleDateString("nl-NL", options);
+                    dateString.charAt(0).toUpperCase() + dateString.slice(1);
             }
 
             // Toggle fullscreen function

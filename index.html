@@ -54,7 +54,8 @@
                     year: "numeric",
                 };
                 const dateString = now.toLocaleDateString("nl-NL", options);
-                date.textContent = dateString.charAt(0).toUpperCase() + dateString.slice(1);
+                date.textContent =
+                    dateString.charAt(0).toUpperCase() + dateString.slice(1);
             }
 
             // Load agenda content
@@ -70,9 +71,9 @@
                             "Fijne dag Opa!"),
                 );
 
-            // Update time every minute
+            // Update time every second
             updateTime();
-            setInterval(updateTime, 60000);
+            setInterval(updateTime, 1000);
         </script>
     </body>
 </html>

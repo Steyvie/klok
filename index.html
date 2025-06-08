@@ -31,7 +31,7 @@
         <div id="agenda"></div>
 
         <script>
-            function updateTime() {
+            function update() {
                 const now = new Date();
                 document.getElementById("clock").textContent =
                     now.toLocaleTimeString("nl-NL", {
@@ -70,9 +70,7 @@
 
             // Initial load and setup
             updateTime();
-            fetchAgenda();
-            setInterval(updateTime, 1000);
-            setInterval(fetchAgenda, 60000); // Update agenda every minute
+            setInterval(update, 1000);
         </script>
     </body>
 </html>

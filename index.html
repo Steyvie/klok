@@ -16,7 +16,7 @@
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                cursor: pointer; /* Show pointer to indicate clickable */
+                cursor: pointer;
             }
             #clock {
                 font-size: 20rem;
@@ -47,11 +47,14 @@
                 });
                 clock.textContent = time;
 
-                // Format date as 8-6-2025 (day-month-year)
+                // Format date as "Zondag 8-6-2025"
+                const weekday = now.toLocaleDateString("nl-NL", {
+                    weekday: "long",
+                });
                 const day = now.getDate();
-                const month = now.getMonth() + 1; // Months are 0-indexed
+                const month = now.getMonth() + 1;
                 const year = now.getFullYear();
-                date.textContent = `${day}-${month}-${year}`;
+                date.textContent = `${weekday.charAt(0).toUpperCase() + weekday.slice(1)} ${day}-${month}-${year}`;
             }
 
             // Toggle fullscreen function

@@ -2,25 +2,28 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>Klok</title>
+        <title>Clock</title>
         <style>
             body {
-                background: #000;
-                color: #fff;
+                background: black;
+                color: white;
                 font-family: Helvetica, sans-serif;
                 text-align: center;
                 margin: 0;
+                padding: 0;
                 height: 100vh;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
+                align-items: center;
             }
             #clock {
                 font-size: 20rem;
+                margin: 0;
             }
             #date,
             #agenda {
-                font-size: 8rem;
+                font-size: 10rem;
                 margin: 1rem 0;
             }
         </style>
@@ -31,46 +34,65 @@
         <div id="agenda"></div>
 
         <script>
-            function update() {
+            function updateTime() {
                 const now = new Date();
-                document.getElementById("clock").textContent =
-                    now.toLocaleTimeString("nl-NL", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                    });
-                const dateStr = now.toLocaleDateString("nl-NL", {
+                const clock = document.getElementById("clock");
+                const date = document.getElementById("date");
+
+                // Format time (HH:MM)
+                const time = now.toLocaleTimeString("nl-NL", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                });
+                clock.textContent = time;
+
+                // Format date (zondag 8 juni 2025)
+                const options = {
                     weekday: "long",
                     day: "numeric",
                     month: "long",
                     year: "numeric",
-                });
-                document.getElementById("date").textContent =
-                    dateStr[0].toUpperCase() + dateStr.slice(1);
-
-                fetch("agenda.txt")
-                    .then((response) => response.text())
-                    .then(
-                        (text) =>
-                            (document.getElementById("agenda").textContent =
-                                text),
-                    )
-                    .catch(
-                        () =>
-                            (document.getElementById("agenda").textContent =
-                                ""),
-                    );
+                };
+                const dateString = now.toLocaleDateString("nl-NL", options);
+                date.textContent =
+                    dateString.charAt(0).toUpperCase() + dateString.slice(1);
             }
 
-            document.body.onclick = () =>
-                !document.fullscreenElement
-                    ? document.documentElement
-                          .requestFullscreen()
-                          .catch((err) => console.error(err))
-                    : document.exitFullscreen?.();
+            // Load agenda content
+            fetch("agenda.txt")
+                .then((response) => response.text())
+                .then(
+                    (text) =>
+                        (document.getElementById("agenda").textContent = text),
+                )
+                .catch(
+                    () =>
+                        (document.getElementById("agenda").textContent =
+                            "Fijne dag Opa!"),
+                );
 
-            // Initial load and setup
+            // Toggle fullscreen function
+            function toggleFullscreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement
+                        .requestFullscreen()
+                        .catch((err) => {
+                            console.error(
+                                `Error attempting to enable fullscreen: ${err.message}`,
+                            );
+                        });
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            }
+
+            // Make entire page clickable for fullscreen toggle
+            document.body.addEventListener("click", toggleFullscreen);
+            // Update time every minute
             updateTime();
-            setInterval(update, 1000);
+            setInterval(updateTime, 1000);
         </script>
     </body>
 </html>

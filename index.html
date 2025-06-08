@@ -37,24 +37,19 @@
         <script>
             function updateTime() {
                 const now = new Date();
-                const clock = document.getElementById("clock");
-                const date = document.getElementById("date");
-
-                // Format time (HH:MM)
-                const time = now.toLocaleTimeString("nl-NL", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                });
-                clock.textContent = time;
-
-                // Format date as "Zondag 8-6-2025"
-                const weekday = now.toLocaleDateString("nl-NL", {
+                const options = {
                     weekday: "long",
-                });
-                const day = now.getDate();
-                const month = now.getMonth() + 1;
-                const year = now.getFullYear();
-                date.textContent = `${weekday.charAt(0).toUpperCase() + weekday.slice(1)} ${day}-${month}-${year}`;
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                };
+                document.getElementById("clock").textContent =
+                    now.toLocaleTimeString("nl-NL", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                    });
+                document.getElementById("date").textContent =
+                    now.toLocaleDateString("nl-NL", options);
             }
 
             // Toggle fullscreen function

@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <title>Simple Clock</title>
         <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Inter&display"
             rel="stylesheet"
         />
         <style>
@@ -14,7 +14,7 @@
                 font-family: "Inter", sans-serif;
                 text-align: center;
                 margin-top: 100px;
-                font-size: 2em;
+                font-size: 16em;
             }
         </style>
     </head>
@@ -27,20 +27,19 @@
             function updateTime() {
                 const now = new Date();
                 document.getElementById("clock").textContent =
-                    now.toLocaleTimeString("nl-NL", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                    });
+                    now.getHours().toString().padStart(2, "0") +
+                    ":" +
+                    now.getMinutes().toString().padStart(2, "0");
+
+                const options = {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                };
                 document.getElementById("date").textContent =
-                    now.toLocaleDateString("nl-NL", {
-                        weekday: "long",
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                    });
+                    new Intl.DateTimeFormat("nl-NL", options).format(now);
             }
-            setInterval(updateTime, 1000);
-            updateTime();
 
             fetch("agenda.txt")
                 .then((response) => response.text())
@@ -48,6 +47,9 @@
                     (text) =>
                         (document.getElementById("agenda").textContent = text),
                 );
+
+            updateTime();
+            setInterval(updateTime, 1000);
         </script>
     </body>
 </html>

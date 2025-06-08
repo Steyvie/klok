@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>Klokkie</title>
+        <title>Klok</title>
         <style>
             body {
                 background: black;
@@ -59,27 +59,6 @@
                 date.textContent = `${weekday.charAt(0).toUpperCase() + weekday.slice(1)} ${day}-${month}-${year}`;
             }
 
-            async function fetchAgenda() {
-                try {
-                    const response = await fetch(
-                        "https://raw.githubusercontent.com/Steyvie/agenda/refs/heads/main/agenda.txt?t=" +
-                            Date.now(),
-                        { cache: "no-store" }, // Bypass browser cache
-                    );
-                    if (!response.ok) throw new Error("Failed to fetch agenda");
-                    const agendaText = await response.text();
-
-                    // Only update DOM if text changed
-                    if (agendaText !== lastAgendaText) {
-                        document.getElementById("agenda").textContent =
-                            agendaText;
-                        lastAgendaText = agendaText;
-                    }
-                } catch (error) {
-                    console.error("Error fetching agenda:", error);
-                }
-            }
-
             // Toggle fullscreen function
             function toggleFullscreen() {
                 if (!document.fullscreenElement) {
@@ -102,12 +81,9 @@
 
             // Initial load and setup
             updateTime();
-            fetchAgenda();
 
             // Update time every second
             setInterval(updateTime, 1000);
-            // Update agenda every 1 second (faster polling)
-            setInterval(fetchAgenda, 1000);
         </script>
     </body>
 </html>

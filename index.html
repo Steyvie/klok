@@ -23,17 +23,8 @@
             }
             #date,
             #agenda {
-                font-size: 10rem;
+                font-size: 6rem;
                 margin: 1rem 0;
-            }
-            #fullscreen-btn {
-                font-size: 1rem;
-                padding: 0.5rem 1rem;
-                border: none;
-                border-radius: 0.25rem;
-                background-color: #333;
-                color: white;
-                cursor: pointer;
             }
         </style>
     </head>
@@ -41,7 +32,6 @@
         <div id="clock"></div>
         <div id="date"></div>
         <div id="agenda"></div>
-        <button id="fullscreen-btn">Fullscreen</button>
 
         <script>
             function updateTime() {
@@ -64,13 +54,6 @@
                     year: "numeric",
                 };
                 date.textContent = now.toLocaleDateString("nl-NL", options);
-            }
-            function toggleFullscreen() {
-                if (document.fullscreenElement) {
-                    document.exitFullscreen();
-                } else {
-                    document.documentElement.requestFullscreen();
-                }
             }
 
             // Load agenda content

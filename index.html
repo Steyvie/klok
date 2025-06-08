@@ -57,11 +57,18 @@
                 date.textContent = `${weekday.charAt(0).toUpperCase() + weekday.slice(1)} ${day}-${month}-${year}`;
             }
 
-            // Function to load agenda content with cache busting
+            // Function to load agenda content from GitHub Gist
             function loadAgenda() {
+                // Replace with your Gist ID and filename
+                const gistId =
+                    "8b44438cabe01d56d5e92e288115ebd8/raw/c12b83c2e115b74ce31352de5e1f4c960ab350ba"; // e.g., 'a1b2c3d4e5f6g7h8i9j0'
+                const filename = "agenda.txt"; // or whatever your file is named
+
                 // Add timestamp to URL to prevent caching
                 const timestamp = new Date().getTime();
-                fetch(`agenda.txt?t=${timestamp}`)
+                fetch(
+                    `https://gist.githubusercontent.com/${gistId}/raw/${filename}?t=${timestamp}`,
+                )
                     .then((response) => {
                         if (response.ok) return response.text();
                         throw new Error("Network response was not ok");

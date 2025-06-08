@@ -5,22 +5,18 @@
         <title>Klok</title>
         <style>
             body {
-                background: black;
-                color: white;
+                background: #000;
+                color: #fff;
                 font-family: Helvetica, sans-serif;
                 text-align: center;
                 margin: 0;
-                padding: 0;
                 height: 100vh;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
-                align-items: center;
-                cursor: pointer;
             }
             #clock {
                 font-size: 20rem;
-                margin: 0;
             }
             #date,
             #agenda {
@@ -37,43 +33,28 @@
         <script>
             function updateTime() {
                 const now = new Date();
-                const options = {
-                    weekday: "long",
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                };
                 document.getElementById("clock").textContent =
                     now.toLocaleTimeString("nl-NL", {
                         hour: "2-digit",
                         minute: "2-digit",
                     });
-                const dateString = now.toLocaleDateString("nl-NL", options);
+                const dateStr = now.toLocaleDateString("nl-NL", {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                });
                 document.getElementById("date").textContent =
-                    dateString.charAt(0).toUpperCase() + dateString.slice(1);
+                    dateStr[0].toUpperCase() + dateStr.slice(1);
             }
 
-            // Toggle fullscreen function
-            function toggleFullscreen() {
-                if (!document.fullscreenElement) {
-                    document.documentElement
-                        .requestFullscreen()
-                        .catch((err) => {
-                            console.error(
-                                `Error attempting to enable fullscreen: ${err.message}`,
-                            );
-                        });
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    }
-                }
-            }
+            document.body.onclick = () =>
+                !document.fullscreenElement
+                    ? document.documentElement
+                          .requestFullscreen()
+                          .catch((err) => console.error(err))
+                    : document.exitFullscreen?.();
 
-            // Make entire page clickable for fullscreen toggle
-            document.body.addEventListener("click", toggleFullscreen);
-
-            // Initial load and setup
             updateTime();
             setInterval(updateTime, 1000);
         </script>

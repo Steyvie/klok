@@ -2,9 +2,9 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>Simple Clock</title>
+        <title>Clock</title>
         <link
-            href="https://fonts.googleapis.com/css2?family=Inter&display"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
             rel="stylesheet"
         />
         <style>
@@ -14,30 +14,17 @@
                 font-family: "Inter", sans-serif;
                 text-align: center;
                 margin: 0;
-                padding: 0;
-                height: 100vh;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
+                padding: 20px;
             }
-
             #clock {
-                font-size: 16em;
+                font-size: 5rem;
                 font-weight: bold;
-                margin-bottom: 1em;
+                margin: 20vh 0 0;
             }
-
-            #date {
-                font-size: 4em;
-                font-weight: normal;
-                margin-bottom: 1em;
-            }
-
+            #date,
             #agenda {
-                font-size: 4em;
-                font-weight: normal;
-                margin-bottom: 1em;
+                font-size: 1.5rem;
+                margin: 1rem 0;
             }
         </style>
     </head>
@@ -49,30 +36,42 @@
         <script>
             function updateTime() {
                 const now = new Date();
-                document.getElementById("clock").textContent =
-                    now.getHours().toString().padStart(2, "0") +
-                    ":" +
-                    now.getMinutes().toString().padStart(2, "0");
+                const clock = document.getElementById("clock");
+                const date = document.getElementById("date");
 
+                // Format time (HH:MM)
+                const time = now.toLocaleTimeString("nl-NL", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                });
+                clock.textContent = time;
+
+                // Format date (zondag 8 juni 2025)
                 const options = {
                     weekday: "long",
                     day: "numeric",
                     month: "long",
                     year: "numeric",
                 };
-                document.getElementById("date").textContent =
-                    new Intl.DateTimeFormat("nl-NL", options).format(now);
+                date.textContent = now.toLocaleDateString("nl-NL", options);
             }
 
+            // Load agenda content
             fetch("agenda.txt")
                 .then((response) => response.text())
                 .then(
                     (text) =>
                         (document.getElementById("agenda").textContent = text),
+                )
+                .catch(
+                    () =>
+                        (document.getElementById("agenda").textContent =
+                            "Geen agenda gevonden"),
                 );
 
+            // Update time every minute
             updateTime();
-            setInterval(updateTime, 1000);
+            setInterval(updateTime, 60000);
         </script>
     </body>
 </html>

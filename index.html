@@ -53,17 +53,6 @@
                     dateString.charAt(0).toUpperCase() + dateString.slice(1);
             }
 
-            async function updateAgenda() {
-                try {
-                    const response = await fetch(
-                        "https://raw.githubusercontent.com/Steyvie/agenda/main/agenda.txt?t=" +
-                            Date.now(),
-                    );
-                    const text = await response.text();
-                    document.getElementById("agenda").textContent = text;
-                } catch (e) {}
-            }
-
             // Toggle fullscreen function
             function toggleFullscreen() {
                 if (!document.fullscreenElement) {
@@ -86,8 +75,6 @@
 
             // Initial load and setup
             updateTime();
-
-            // Update time every second
             setInterval(updateTime, 1000);
         </script>
     </body>

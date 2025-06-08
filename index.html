@@ -22,10 +22,15 @@
                 font-size: 20rem;
                 margin: 0;
             }
-            #date,
+            #date {
+                font-size: 8rem;
+                margin: 1rem 0;
+            }
             #agenda {
                 font-size: 8rem;
                 margin: 1rem 0;
+                white-space: pre-wrap; /* Preserve line breaks */
+                max-width: 90%;
             }
         </style>
     </head>
@@ -35,6 +40,13 @@
         <div id="agenda"></div>
 
         <script>
+            // Configuration - Update these with your repository details
+            const AGENDA_FILE_URL =
+                "https://raw.githubusercontent.com/Steyvie/agenda/main/agenda.txt";
+            const CHECK_INTERVAL = 5000; // Check for updates every 5 seconds
+            let lastModified = null;
+            let agendaETag = null;
+
             function updateTime() {
                 const now = new Date();
                 const clock = document.getElementById("clock");
@@ -55,6 +67,39 @@
                 const month = now.getMonth() + 1;
                 const year = now.getFullYear();
                 date.textContent = `${weekday.charAt(0).toUpperCase() + weekday.slice(1)} ${day}-${month}-${year}`;
+            }
+
+            async function fetchAgenda() {
+                try {
+                    const headers = {};
+                    if (agendaETag) {
+                        headers["If-None-Match"] = agendaETag;
+                    }
+
+                    const response = await fetch(
+                        AGENDA_FILE_URL + "?t=" + Date.now(),
+                        {
+                            headers: headers,
+                            cache: "no-cache",
+                        },
+                    );
+
+                    if (response.status === 304) {
+                        // Not modified
+                        return;
+                    }
+
+                    if (response.ok) {
+                        const text = await response.text();
+                        document.getElementById("agenda").textContent = text;
+
+                        // Update cache headers for next request
+                        agendaETag = response.headers.get("ETag");
+                        lastModified = response.headers.get("Last-Modified");
+                    }
+                } catch (error) {
+                    console.error("Error fetching agenda:", error);
+                }
             }
 
             // Toggle fullscreen function
@@ -79,9 +124,13 @@
 
             // Initial load and setup
             updateTime();
+            fetchAgenda(); // Load agenda immediately
 
             // Update time every second
             setInterval(updateTime, 1000);
+
+            // Check for agenda updates periodically
+            setInterval(fetchAgenda, CHECK_INTERVAL);
         </script>
     </body>
 </html>

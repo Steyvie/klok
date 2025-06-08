@@ -16,6 +16,7 @@
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
+                cursor: pointer; /* Show pointer to indicate clickable */
             }
             #clock {
                 font-size: 20rem;
@@ -46,17 +47,32 @@
                 });
                 clock.textContent = time;
 
-                // Format date (zondag 8 juni 2025)
-                const options = {
-                    weekday: "long",
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                };
-                const dateString = now.toLocaleDateString("nl-NL", options);
-                date.textContent =
-                    dateString.charAt(0).toUpperCase() + dateString.slice(1);
+                // Format date as 8-6-2025 (day-month-year)
+                const day = now.getDate();
+                const month = now.getMonth() + 1; // Months are 0-indexed
+                const year = now.getFullYear();
+                date.textContent = `${day}-${month}-${year}`;
             }
+
+            // Toggle fullscreen function
+            function toggleFullscreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement
+                        .requestFullscreen()
+                        .catch((err) => {
+                            console.error(
+                                `Error attempting to enable fullscreen: ${err.message}`,
+                            );
+                        });
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            }
+
+            // Make entire page clickable for fullscreen toggle
+            document.body.addEventListener("click", toggleFullscreen);
 
             // Load agenda content
             fetch("agenda.txt")

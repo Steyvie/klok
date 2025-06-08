@@ -19,9 +19,7 @@
             }
             #clock {
                 font-size: 20rem;
-                font-weight: bold;
                 margin: 0;
-                line-height: 1;
             }
             #date,
             #agenda {
@@ -34,6 +32,7 @@
         <div id="clock"></div>
         <div id="date"></div>
         <div id="agenda"></div>
+        <div id="fullscreen-toggle"></div>
 
         <script>
             function updateTime() {
@@ -57,6 +56,13 @@
                 };
                 date.textContent = now.toLocaleDateString("nl-NL", options);
             }
+            function toggleFullscreen() {
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                } else {
+                    document.documentElement.requestFullscreen();
+                }
+            }
 
             // Load agenda content
             fetch("agenda.txt")
@@ -68,7 +74,7 @@
                 .catch(
                     () =>
                         (document.getElementById("agenda").textContent =
-                            "Geen agenda gevonden"),
+                            "Fijne dag Opa!"),
                 );
 
             // Update time every minute

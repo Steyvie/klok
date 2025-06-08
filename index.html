@@ -31,6 +31,18 @@
         <div id="agenda"></div>
 
         <script>
+            async function fetchAgenda() {
+                try {
+                    const response = await fetch(
+                        "https://raw.githubusercontent.com/Steyvie/agenda/refs/heads/main/agenda.txt",
+                    );
+                    const text = await response.text();
+                    document.getElementById("agenda").textContent = text.trim();
+                } catch (err) {
+                    console.error("Failed to fetch agenda:", err);
+                }
+            }
+
             function updateTime() {
                 const now = new Date();
                 document.getElementById("clock").textContent =
@@ -55,8 +67,11 @@
                           .catch((err) => console.error(err))
                     : document.exitFullscreen?.();
 
+            // Initial load and setup
             updateTime();
+            fetchAgenda();
             setInterval(updateTime, 1000);
+            setInterval(fetchAgenda, 60000); // Update agenda every minute
         </script>
     </body>
 </html>

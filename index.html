@@ -1,101 +1,24 @@
-<!doctype html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>Clock</title>
-        <style>
-            body {
-                background: black;
-                color: white;
-                font-family: Helvetica, sans-serif;
-                text-align: center;
-                margin: 0;
-                padding: 0;
-                height: 100vh;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-            }
-            #clock {
-                font-size: 20rem;
-                margin: 0;
-            }
-            #date {
-                font-size: 8rem;
-                margin: 1rem 0;
-            }
-            #agenda {
-                font-size: 6rem;
-                margin: 1rem 0;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="clock"></div>
-        <div id="date"></div>
-        <div id="agenda"></div>
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Klok</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Apple specific meta tags for full screen experience -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+</head>
+<body>
 
-        <script>
-            function updateTime() {
-                const now = new Date();
-                const clock = document.getElementById("clock");
-                const date = document.getElementById("date");
+    <div class="container">
+        <div id="clock" class="time">00:00</div>
+        <div id="date" class="date">Laden...</div>
+        <div id="message-container" class="message-box">
+            <span id="message"></span>
+        </div>
+    </div>
 
-                // Format time (HH:MM)
-                const time = now.toLocaleTimeString("nl-NL", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                });
-                clock.textContent = time;
-
-                // Format date (zondag 8 juni 2025)
-                const options = {
-                    weekday: "long",
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                };
-                const dateString = now.toLocaleDateString("nl-NL", options);
-                date.textContent =
-                    dateString.charAt(0).toUpperCase() + dateString.slice(1);
-            }
-
-            // Load agenda content
-            fetch("agenda.txt")
-                .then((response) => response.text())
-                .then(
-                    (text) =>
-                        (document.getElementById("agenda").textContent = text),
-                )
-                .catch(
-                    () =>
-                        (document.getElementById("agenda").textContent =
-                            "Fijne dag Opa!"),
-                );
-
-            // Toggle fullscreen function
-            function toggleFullscreen() {
-                if (!document.fullscreenElement) {
-                    document.documentElement
-                        .requestFullscreen()
-                        .catch((err) => {
-                            console.error(
-                                `Error attempting to enable fullscreen: ${err.message}`,
-                            );
-                        });
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    }
-                }
-            }
-
-            // Make entire page clickable for fullscreen toggle
-            document.body.addEventListener("click", toggleFullscreen);
-            // Update time every minute
-            updateTime();
-            setInterval(updateTime, 1000);
-        </script>
-    </body>
+    <script src="script.js"></script>
+</body>
 </html>
